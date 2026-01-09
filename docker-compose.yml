@@ -1,0 +1,100 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:latest # Usa el nombre completo de la imagen
+    environment:
+      POSTGRES_USER: alibou
+      POSTGRES_PASSWORD: alibou
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres:Z
+    ports:
+      - "5432:5432"
+    networks:
+      - microservices-net
+
+  pgadmin:
+    image: docker.io/dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin:Z
+    ports:
+      - "5050:80"
+    networks:
+      - microservices-net
+
+#  zipkin:
+#    image: docker.io/openzipkin/zipkin
+#    ports:
+#      - "9411:9411"
+#    networks:
+#      - microservices-net
+
+  mongodb:
+    image: docker.io/library/mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data:Z
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=alibou
+      - MONGO_INITDB_ROOT_PASSWORD=alibou
+    networks:
+      - microservices-net
+
+  mongo-express:
+    image: docker.io/library/mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=alibou
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=alibou
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    networks:
+      - microservices-net
+
+#  zookeeper:
+#    image: docker.io/confluentinc/cp-zookeeper:latest
+#    environment:
+#      ZOOKEEPER_SERVER_ID: 1
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#    ports:
+#      - "22181:2181"
+#    networks:
+#      - microservices-net
+
+#  kafka:
+#    image: docker.io/confluentinc/cp-kafka:latest
+#    ports:
+#      - "9092:9092"
+#    depends_on:
+#      - zookeeper
+#    environment:
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#    networks:
+#      - microservices-net
+
+  mail-dev:
+    image: docker.io/maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  mongo:

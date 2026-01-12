@@ -1,0 +1,10 @@
+spring:
+  mongodb:
+    authentication-database: admin
+    database: customer
+    port: 27017
+    host: localhost
+    password: alibou
+    username: alibou
+server:
+  port: 8090

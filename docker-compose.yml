@@ -1,5 +1,6 @@
 services:
   postgresql:
+    container_name: ms_pg_sql
     image: docker.io/library/postgres:latest # Usa el nombre completo de la imagen
     environment:
       POSTGRES_USER: alibou
@@ -13,6 +14,7 @@ services:
       - microservices-net
 
   pgadmin:
+    container_name: ms_pgadmin
     image: docker.io/dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
@@ -26,6 +28,7 @@ services:
       - microservices-net
 
 #  zipkin:
+#    container_name: zipkin
 #    image: docker.io/openzipkin/zipkin
 #    ports:
 #      - "9411:9411"
@@ -33,6 +36,7 @@ services:
 #      - microservices-net
 
   mongodb:
+    container_name: mongo_db
     image: docker.io/library/mongo
     ports:
       - "27017:27017"
@@ -45,6 +49,7 @@ services:
       - microservices-net
 
   mongo-express:
+    container_name: mongo_express
     image: docker.io/library/mongo-express
     ports:
       - "8081:8081"
@@ -56,8 +61,8 @@ services:
       - microservices-net
 
   kafka:
+    container_name: ms_kafka
     image: docker.io/confluentinc/cp-kafka:latest
-    container_name: kafka
     ports:
       - "9092:9092"
     environment:
@@ -75,34 +80,8 @@ services:
     networks:
       - microservices-net
 
-#  zookeeper:
-#    image: docker.io/confluentinc/cp-zookeeper:latest
-#    environment:
-#      ZOOKEEPER_SERVER_ID: 1
-#      ZOOKEEPER_CLIENT_PORT: 2181
-#      ZOOKEEPER_TICK_TIME: 2000
-#    ports:
-#      - "22181:2181"
-#    networks:
-#      - microservices-net
-
-#  kafka:
-#    image: docker.io/confluentinc/cp-kafka:latest
-#    ports:
-#      - "9092:9092"
-#    depends_on:
-#      - zookeeper
-#    environment:
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-#    networks:
-#      - microservices-net
-
   mail-dev:
+    container_name: ms-mail-dev
     image: docker.io/maildev/maildev
     ports:
       - "1080:1080"

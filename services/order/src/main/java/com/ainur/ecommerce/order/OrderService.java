@@ -6,6 +6,8 @@ import com.ainur.ecommerce.kafka.OrderConfirmation;
 import com.ainur.ecommerce.kafka.OrderProducer;
 import com.ainur.ecommerce.orderline.OrderLineRequest;
 import com.ainur.ecommerce.orderline.OrderLineService;
+import com.ainur.ecommerce.payment.PaymentClient;
+import com.ainur.ecommerce.payment.PaymentRequest;
 import com.ainur.ecommerce.product.ProductClient;
 import com.ainur.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,7 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createOrder(OrderRequest request) {
         // check the customer --> OpenFeign
@@ -49,7 +52,15 @@ public class OrderService {
             );
         }
 
-        // todo start payment process
+        // start payment process
+        var paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
 
         // send the order confirmation --> notification-ms (kafka)
         orderProducer.sendOrderConfirmation(

@@ -22,7 +22,7 @@ public class PaymentService {
                         request.orderReference(),
                         request.amount(),
                         request.paymentMethod(),
-                        request.customer().firstame(),
+                        request.customer().firstname(),
                         request.customer().lastname(),
                         request.customer().email()
                 )

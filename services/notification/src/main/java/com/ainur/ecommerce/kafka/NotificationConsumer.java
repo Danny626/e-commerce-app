@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static com.ainur.ecommerce.notification.NotificationType.ORDER_CONFIRMATION;
 import static com.ainur.ecommerce.notification.NotificationType.PAYMENT_CONFIRMATION;
 import static java.lang.String.format;
 
@@ -50,7 +51,7 @@ public class NotificationConsumer {
         log.info(format("Consuming the message from order-topic Topic:: %s", orderConfirmation));
         repository.save(
                 Notification.builder()
-                        .type(PAYMENT_CONFIRMATION)
+                        .type(ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
                         .orderConfirmation(orderConfirmation)
                         .build()

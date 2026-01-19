@@ -1,0 +1,39 @@
+meta {
+  name: Add Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8222/api/v1/orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "reference": "MS-20240003",
+    "amount": 900,
+    "paymentMethod": "PAYPAL",
+    "customerId": "696d860a0ea5706f526c6f60",
+    "products": [
+      {
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "productId": 251,
+        "quantity": 1
+      },
+      {
+        "productId": 851,
+        "quantity": 1
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

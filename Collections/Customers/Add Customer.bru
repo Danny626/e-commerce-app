@@ -1,0 +1,29 @@
+meta {
+  name: Add Customer
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8222/api/v1/customers
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@mail.com",
+    "address": {
+      "street": "Street name",
+      "houseNumber": "123",
+      "zipCode": "50001"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

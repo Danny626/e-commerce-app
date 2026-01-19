@@ -89,6 +89,17 @@ services:
     networks:
       - microservices-net
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.1
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "9098:8080"
+    networks:
+      - microservices-net
+
 networks:
   microservices-net:
     driver: bridge

@@ -81,7 +81,7 @@ services:
       - microservices-net
 
   mail-dev:
-    container_name: ms-mail-dev
+    container_name: ms_mail_dev
     image: docker.io/maildev/maildev
     ports:
       - "1080:1080"
@@ -90,6 +90,7 @@ services:
       - microservices-net
 
   keycloak:
+    container_name: ms_keycloak
     image: quay.io/keycloak/keycloak:26.5.1
     command: start-dev
     environment:

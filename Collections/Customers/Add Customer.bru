@@ -7,14 +7,29 @@ meta {
 post {
   url: http://localhost:8222/api/v1/customers
   body: json
-  auth: inherit
+  auth: oauth2
+}
+
+auth:oauth2 {
+  grant_type: client_credentials
+  access_token_url: http://localhost:9098/realms/micro-services/protocol/openid-connect/token
+  refresh_token_url: 
+  client_id: micro-services-api
+  client_secret: 8bj2ZMx7QUgV7Q9Gg6Poh4SPGTMbnloZ
+  scope: 
+  credentials_placement: basic_auth_header
+  credentials_id: credentials
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
 }
 
 body:json {
   {
-    "firstName": "Danny",
-    "lastName": "Romero",
-    "email": "live626@gmail.com",
+    "firstName": "Ali",
+    "lastName": "Bouali",
+    "email": "mail@mail.com",
     "address": {
       "street": "Street name",
       "houseNumber": "123",

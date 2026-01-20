@@ -84,7 +84,7 @@ public class EmailService {
         variables.put("customerName", customerName);
         variables.put("totalAmount", amount);
         variables.put("orderReference", orderReference);
-        variables.put("products", orderReference);
+        variables.put("products", products);
 
         Context context = new Context();
         context.setVariables(variables);
